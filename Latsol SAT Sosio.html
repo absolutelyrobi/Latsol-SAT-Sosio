@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simulasi SAS Sosiologi Kelas 10</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          animation: {
+            'fade-in-up': 'fadeInUp 0.5s ease-out',
+          },
+          keyframes: {
+            fadeInUp: {
+              '0%': { opacity: '0', transform: 'translateY(20px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' },
+            }
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-slate-900 text-slate-100 font-sans min-h-screen">
+
+  <!-- ================= SCREEN: START ================= -->
+  <div id="screen-start" class="min-h-screen flex flex-col items-center justify-center p-6">
+    <div class="max-w-3xl w-full bg-slate-800 p-8 md:p-12 rounded-2xl shadow-2xl text-center border border-slate-700 relative overflow-hidden">
+      <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500"></div>
+      
+      <div class="mb-6 flex justify-center">
+         <svg class="w-20 h-20 text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+      </div>
+      
+      <h1 class="text-3xl md:text-5xl font-extrabold mb-4 tracking-tight text-white">
+        Simulasi SAS Sosiologi
+      </h1>
+      <h2 class="text-lg md:text-xl text-teal-300 font-semibold mb-6">
+        Materi: Penelitian, Lembaga, Keteraturan & Penyimpangan Sosial
+      </h2>
+      
+      <div class="bg-slate-700/50 rounded-xl p-6 mb-8 text-left max-w-xl mx-auto border border-slate-600">
+        <h3 class="font-bold text-white mb-3">📋 Instruksi Latihan:</h3>
+        <ul class="list-disc pl-5 space-y-2 text-slate-300">
+          <li>Terdiri dari <strong>40 Soal Pilihan Ganda</strong> dan <strong>5 Soal Uraian</strong>.</li>
+          <li>Soal disusun untuk menguji logika, analisis kasus sosial, dan pemahaman konsep.</li>
+          <li>Terdapat pembahasan otomatis setelah menjawab setiap soal pilihan ganda.</li>
+          <li>Kerjakan dengan cermat untuk mendapatkan skor maksimal.</li>
+        </ul>
+      </div>
+
+      <button onclick="startQuiz()" class="bg-teal-600 hover:bg-teal-500 text-white font-bold py-4 px-10 rounded-full text-lg shadow-lg shadow-teal-500/30 transition transform hover:-translate-y-1">
+        Mulai Latihan Sekarang
+      </button>
+      
+      <p class="mt-8 text-xs text-slate-500">
+        Sumber: Latsol SAS Sosiologi Kelas 10
+      </p>
+    </div>
+  </div>
+
+  <!-- ================= SCREEN: QUIZ ================= -->
+  <div id="screen-quiz" class="hidden min-h-screen py-8 px-4">
+    <div class="max-w-4xl mx-auto">
+      
+      <!-- Header & Progress -->
+      <div class="mb-6 flex items-center justify-between">
+        <div>
+          <span id="quiz-category" class="text-xs font-bold uppercase tracking-wider text-teal-400 bg-teal-900/30 px-3 py-1 rounded-full">
+            Kategori
+          </span>
+        </div>
+        <div id="quiz-progress-text" class="text-sm font-semibold text-slate-400">
+          Soal 1 / 40
+        </div>
+      </div>
+      <div class="w-full bg-slate-800 rounded-full h-2 mb-8 overflow-hidden">
+        <div id="quiz-progress-bar" class="bg-gradient-to-r from-emerald-500 to-teal-500 h-2 rounded-full transition-all duration-300 ease-out" style="width: 0%"></div>
+      </div>
+
+      <!-- Main Card -->
+      <div class="bg-slate-800 border border-slate-700 rounded-2xl shadow-xl overflow-hidden mb-6">
+        
+        <!-- Stimulus Box (Hidden if empty) -->
+        <div id="quiz-stimulus-container" class="bg-slate-700/30 p-5 md:p-8 border-b border-slate-700 text-slate-300 hidden">
+          <div class="flex gap-3 mb-3 items-center">
+            <svg class="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+            <h3 class="font-semibold text-white">Kasus / Stimulus</h3>
+          </div>
+          <p id="quiz-stimulus" class="whitespace-pre-wrap leading-relaxed text-sm md:text-base"></p>
+        </div>
+
+        <!-- Question Box -->
+        <div class="p-5 md:p-8">
+          <h2 id="quiz-question" class="text-xl md:text-2xl font-semibold mb-6 leading-snug text-white">
+            Pertanyaan
+          </h2>
+
+          <!-- Options -->
+          <div id="quiz-options" class="space-y-3">
+            <!-- Options will be injected here -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Feedback & Next Button -->
+      <div id="quiz-feedback-container" class="hidden animate-fade-in-up">
+        <div id="quiz-feedback-box" class="p-6 rounded-2xl border mb-6">
+          <div class="flex items-center gap-3 mb-2">
+            <div id="quiz-feedback-icon"></div>
+            <h3 id="quiz-feedback-title" class="font-bold text-lg"></h3>
+          </div>
+          <div class="pl-10">
+            <p id="quiz-feedback-text" class="opacity-90 leading-relaxed text-sm md:text-base"></p>
+          </div>
+        </div>
+
+        <div class="flex justify-end pb-12">
+          <button onclick="handleNextQuestion()" id="quiz-next-btn" class="bg-teal-600 hover:bg-teal-500 text-white px-8 py-3 rounded-full font-bold shadow-lg flex items-center gap-2 transition">
+            Soal Berikutnya
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ================= SCREEN: RESULT ================= -->
+  <div id="screen-result" class="hidden min-h-screen flex flex-col items-center justify-center p-6">
+    <div class="max-w-2xl w-full bg-slate-800 p-8 md:p-12 rounded-3xl shadow-2xl text-center border border-slate-700">
+      
+      <h2 class="text-3xl font-bold mb-8 text-white">Latihan Selesai! 🎉</h2>
+      
+      <div class="relative w-48 h-48 mx-auto mb-8">
+        <svg class="w-full h-full" viewBox="0 0 36 36">
+          <path class="text-slate-700" stroke-width="3" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+          <path id="result-circle" class="text-teal-500" stroke-dasharray="0, 100" stroke-width="3" stroke-linecap="round" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+        </svg>
+        <div class="absolute inset-0 flex flex-col items-center justify-center">
+          <span id="result-score" class="text-5xl font-black text-white">0</span>
+          <span class="text-sm text-slate-400 mt-1">dari 100</span>
+        </div>
+      </div>
+
+      <div class="bg-slate-700/30 rounded-xl p-6 mb-8 border border-slate-600">
+        <p class="text-lg">
+          Kamu menjawab benar <strong id="result-correct" class="text-emerald-400 text-xl">0</strong> dari <strong id="result-total" class="text-teal-400 text-xl">40</strong> soal Pilihan Ganda.
+        </p>
+        <p id="result-message" class="mt-3 text-slate-400 italic">
+          Message
+        </p>
+      </div>
+
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <button onclick="goToEssay()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 px-8 rounded-full shadow-lg transition">
+          Lanjut ke Soal Uraian 📝
+        </button>
+        <button onclick="startQuiz()" class="bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 px-8 rounded-full transition">
+          Ulangi Pilihan Ganda 🔄
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= SCREEN: ESSAY ================= -->
+  <div id="screen-essay" class="hidden min-h-screen py-10 px-4">
+    <div class="max-w-4xl mx-auto">
+      <div class="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <h2 class="text-3xl font-bold text-white mb-2">Bagian B: Soal Uraian</h2>
+          <p class="text-slate-400">Kerjakan soal-soal berikut dengan cermat dan teliti.</p>
+        </div>
+        <button onclick="toggleEssayAnswers()" id="essay-toggle-btn" class="border border-teal-500 text-teal-400 hover:bg-teal-500/10 px-5 py-2 rounded-full font-medium transition self-start">
+          Lihat Kunci Jawaban
+        </button>
+      </div>
+
+      <div id="essay-container" class="space-y-6">
+        <!-- Essays will be injected here -->
+      </div>
+
+      <div class="mt-10 mb-20 text-center">
+        <button onclick="goHome()" class="bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 px-8 rounded-full transition inline-flex items-center gap-2">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+          Kembali ke Beranda Utama
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // --- DATA SOAL PILIHAN GANDA SOSIOLOGI (40 SOAL - DIACAK) ---
+    const questionsData = [
+      { id: 1, category: "Penelitian Sosial", stimulus: "", question: "Seorang ahli mendefinisikan penelitian sebagai usaha mengumpulkan, mencari, dan menganalisis fakta-fakta suatu masalah. Tokoh yang mengemukakan pandangan tersebut adalah...", options: [ { key: "A", text: "Soerjono Soekanto" }, { key: "B", text: "Sutrisno Hadi" }, { key: "C", text: "Marzuki" }, { key: "D", text: "Sanapiah Faisal" }, { key: "E", text: "Moh. Nasir" } ], correct: "C", explanation: "Marzuki menyatakan bahwa penelitian adalah usaha mengumpulkan, mencari, dan menganalisis fakta-fakta suatu masalah." },
+      { id: 2, category: "Penelitian Sosial", stimulus: "", question: "Pendekatan ilmiah menggabungkan pola pikir logis dengan observasi lapangan. Kebenaran yang diperoleh melalui pengalaman atau fakta nyata di lapangan disebut pendekatan...", options: [ { key: "A", text: "Rasional" }, { key: "B", text: "Otoritas" }, { key: "C", text: "Spekulasi" }, { key: "D", text: "Kebetulan" }, { key: "E", text: "Empiris" } ], correct: "E", explanation: "Empiris adalah pencarian kebenaran melalui pengalaman atau fakta nyata di lapangan." },
+      { id: 3, category: "Penelitian Sosial", stimulus: "", question: "Peneliti dari dinas transportasi melakukan studi untuk menemukan solusi mengatasi kemacetan di depan sekolah pada pagi hari. Berdasarkan hasilnya, jenis penelitian ini adalah...", options: [ { key: "A", text: "Penelitian Terapan" }, { key: "B", text: "Penelitian Murni" }, { key: "C", text: "Penelitian Aksi" }, { key: "D", text: "Penelitian Evaluasi" }, { key: "E", text: "Penelitian Sejarah" } ], correct: "A", explanation: "Penelitian terapan (applied) diarahkan untuk memecahkan masalah praktis, seperti mencari solusi mengatasi kemacetan." },
+      { id: 4, category: "Penelitian Sosial", stimulus: "", question: "Sebuah tim mensurvei kepuasan siswa kelas 10, 11, dan 12 secara bersamaan pada akhir semester ini. Berdasarkan dimensi waktu, pendekatan yang digunakan tergolong...", options: [ { key: "A", text: "Penelitian Sejarah" }, { key: "B", text: "Penelitian Cross Sectional" }, { key: "C", text: "Penelitian Longitudinal" }, { key: "D", text: "Penelitian Deskriptif" }, { key: "E", text: "Penelitian Eksploratoris" } ], correct: "B", explanation: "Cross Sectional adalah pengumpulan data dari berbagai analisis dalam satu waktu yang sama, contohnya mensurvei siswa kelas 10, 11, 12 di akhir semester." },
+      { id: 5, category: "Penelitian Sosial", stimulus: "", question: "Saat mewawancarai anak putus sekolah, peneliti fokus pada narasi mendalam dan alasan di balik keputusan mereka, tanpa menggunakan hitungan persentase. Jenis datanya disebut...", options: [ { key: "A", text: "Penelitian Survei" }, { key: "B", text: "Penelitian Asosiatif" }, { key: "C", text: "Penelitian Komparatif" }, { key: "D", text: "Penelitian Kualitatif" }, { key: "E", text: "Penelitian Kuantitatif" } ], correct: "D", explanation: "Penelitian kualitatif menilai kualitas fakta menggunakan kata-kata/kalimat dan berfokus pada proses, seperti wawancara mendalam." },
+      { id: 6, category: "Penelitian Sosial", stimulus: "", question: "Untuk membandingkan dua metode pengajaran, peneliti membagi kelas ke dalam kondisi yang dikontrol secara ketat. Berdasarkan metodenya, penelitian ini disebut...", options: [ { key: "A", text: "Penelitian Naturalistik" }, { key: "B", text: "Penelitian Eksperimen" }, { key: "C", text: "Penelitian Ex Post Facto" }, { key: "D", text: "Penelitian Action Research" }, { key: "E", text: "Penelitian Policy Research" } ], correct: "B", explanation: "Penelitian eksperimen mencari pengaruh satu variabel terhadap variabel lain dalam kondisi terkontrol ketat." },
+      { id: 7, category: "Penelitian Sosial", stimulus: "", question: "Menurut Moh. Nasir, pencarian fakta dengan metode objektif dilakukan untuk menemukan hubungan antarfakta dan menghasilkan...", options: [ { key: "A", text: "Konsep dasar sosiologis" }, { key: "B", text: "Kebenaran yang diragukan" }, { key: "C", text: "Hukum atau dalil pasti" }, { key: "D", text: "Pengetahuan tanpa sengaja" }, { key: "E", text: "Solusi masalah seketika" } ], correct: "C", explanation: "Moh. Nasir mendefinisikan penelitian sebagai pencarian fakta menurut metode objektif untuk menemukan hubungan antarfakta dan menghasilkan hukum/dalil." },
+      { id: 8, category: "Penelitian Sosial", stimulus: "", question: "Peneliti ingin mengetahui hubungan antara durasi bermain game online dengan nilai ujian sosiologi siswa. Berdasarkan tingkat eksplanasinya, penelitian ini bersifat...", options: [ { key: "A", text: "Penelitian Murni" }, { key: "B", text: "Penelitian Deskriptif" }, { key: "C", text: "Penelitian Longitudinal" }, { key: "D", text: "Penelitian Komparatif" }, { key: "E", text: "Penelitian Asosiatif" } ], correct: "E", explanation: "Penelitian asosiatif bertujuan mengetahui hubungan atau keterkaitan antara dua variabel atau lebih." },
+      { id: 9, category: "Penelitian Sosial", stimulus: "", question: "Penelitian yang dilakukan semata-mata dengan memeriksa literatur, dokumen, dan buku-buku di ruang baca tanpa terjun ke masyarakat disebut penelitian...", options: [ { key: "A", text: "Penelitian Kepustakaan" }, { key: "B", text: "Penelitian Komparatif" }, { key: "C", text: "Penelitian Lapangan" }, { key: "D", text: "Penelitian Eksplorasi" }, { key: "E", text: "Penelitian Evaluatif" } ], correct: "A", explanation: "Penelitian kepustakaan dilakukan dengan memeriksa literatur, dokumen, buku di perpustakaan." },
+      { id: 10, category: "Penelitian Sosial", stimulus: "", question: "Dinas pendidikan mengkaji apakah program Bantuan Operasional Sekolah telah disalurkan tepat sasaran sesuai standar awal. Jenis penelitian ini adalah...", options: [ { key: "A", text: "Penelitian Sejarah" }, { key: "B", text: "Penelitian Evaluasi" }, { key: "C", text: "Penelitian Deskriptif" }, { key: "D", text: "Penelitian Kualitatif" }, { key: "E", text: "Penelitian Asosiatif" } ], correct: "B", explanation: "Penelitian evaluasi membandingkan suatu kegiatan dengan standar program yang telah ditetapkan, seperti menilai program BOS." },
+      { id: 11, category: "Lembaga Sosial", stimulus: "", question: "Tokoh yang mendefinisikan lembaga sosial sebagai sistem tata kelakuan yang berpusat pada aktivitas memenuhi kebutuhan khusus masyarakat adalah...", options: [ { key: "A", text: "W.G. Sumner" }, { key: "B", text: "Alvin L. Bertrand" }, { key: "C", text: "Soerjono Soekanto" }, { key: "D", text: "Koentjaraningrat" }, { key: "E", text: "Roucek dan Warren" } ], correct: "D", explanation: "Koentjaraningrat mendefinisikan lembaga sosial sebagai sistem tata kelakuan dan hubungan yang berpusat pada aktivitas memenuhi kebutuhan khusus masyarakat." },
+      { id: 12, category: "Lembaga Sosial", stimulus: "", question: "Lembaga politik bertujuan melembagakan norma melalui undang-undang. Namun, tanpa disadari ia juga memunculkan sistem stratifikasi politik. Hal ini merupakan...", options: [ { key: "A", text: "Fungsi Operatif" }, { key: "B", text: "Fungsi Manifes" }, { key: "C", text: "Fungsi Dasar" }, { key: "D", text: "Fungsi Edukatif" }, { key: "E", text: "Fungsi Laten" } ], correct: "E", explanation: "Fungsi laten adalah fungsi yang tidak disadari. Pada lembaga politik, contohnya adalah menciptakan stratifikasi politik atau menjaga status quo." },
+      { id: 13, category: "Lembaga Sosial", stimulus: "", question: "Jaringan terorisme memiliki struktur dan aturan, namun masyarakat menolaknya karena meresahkan. Berdasarkan penerimaannya, lembaga ini termasuk...", options: [ { key: "A", text: "Unsanctioned Institutions" }, { key: "B", text: "General Institutions" }, { key: "C", text: "Crescive Institutions" }, { key: "D", text: "Basic Institutions" }, { key: "E", text: "Approved Institutions" } ], correct: "A", explanation: "Unsanctioned institutions ditolak karena meresahkan atau mengganggu ketertiban, seperti jaringan terorisme." },
+      { id: 14, category: "Lembaga Sosial", stimulus: "", question: "Tipe lembaga yang dikenal luas oleh hampir seluruh lapisan masyarakat di berbagai belahan dunia, seperti lembaga hak milik atau hukum, disebut...", options: [ { key: "A", text: "Restricted Institutions" }, { key: "B", text: "Regulative Institutions" }, { key: "C", text: "General Institutions" }, { key: "D", text: "Enacted Institutions" }, { key: "E", text: "Subsidiary Institutions" } ], correct: "C", explanation: "General institutions dikenal luas oleh hampir seluruh masyarakat (universal), seperti lembaga hukum dan hak milik." },
+      { id: 15, category: "Lembaga Sosial", stimulus: "", question: "Lembaga keluarga, pendidikan, dan hukum memiliki sifat sangat penting dan mendasar bagi masyarakat sehingga tidak dapat digantikan. Ini merupakan ciri tipe...", options: [ { key: "A", text: "Subsidiary Institutions" }, { key: "B", text: "General Institutions" }, { key: "C", text: "Crescive Institutions" }, { key: "D", text: "Basic Institutions" }, { key: "E", text: "Operative Institutions" } ], correct: "D", explanation: "Basic institutions sangat penting dan mendasar, tidak bisa digantikan (contoh: keluarga, hukum, pendidikan)." },
+      { id: 16, category: "Lembaga Sosial", stimulus: "", question: "Gambar timbangan keadilan di pengadilan atau logo Tut Wuri Handayani di sekolah menunjukkan bahwa setiap lembaga sosial senantiasa memiliki...", options: [ { key: "A", text: "Simbol atau lambang" }, { key: "B", text: "Sistem daya tahan" }, { key: "C", text: "Tradisi tak tertulis" }, { key: "D", text: "Ideologi masyarakat" }, { key: "E", text: "Alat perlengkapan" } ], correct: "A", explanation: "Salah satu karakteristik lembaga sosial adalah memiliki simbol sebagai ciri khas, seperti logo Tut Wuri Handayani atau timbangan hukum." },
+      { id: 17, category: "Lembaga Sosial", stimulus: "", question: "Dalam lembaga keluarga, orang tua senantiasa memberikan rasa cinta, kehangatan, dan kasih sayang kepada anak-anaknya. Peran ini dikenal dengan sebutan...", options: [ { key: "A", text: "Fungsi Edukatif" }, { key: "B", text: "Fungsi Afeksional" }, { key: "C", text: "Fungsi Reproduksi" }, { key: "D", text: "Fungsi Sosialisasi" }, { key: "E", text: "Fungsi Ekonomi" } ], correct: "B", explanation: "Fungsi afeksional dalam lembaga keluarga berarti memberikan kehangatan, cinta, dan kasih sayang." },
+      { id: 18, category: "Lembaga Sosial", stimulus: "", question: "Tradisi penghormatan kepada leluhur terus diwariskan dari satu generasi ke generasi berikutnya. Hal ini membuktikan bahwa lembaga sosial memiliki ciri...", options: [ { key: "A", text: "Memiliki simbol" }, { key: "B", text: "Memiliki ideologi" }, { key: "C", text: "Usianya lebih lama" }, { key: "D", text: "Memiliki tradisi" }, { key: "E", text: "Punya alat bantu" } ], correct: "C", explanation: "Lembaga sosial usianya lebih lama karena diwariskan antar generasi (seperti tradisi warisan leluhur yang masih berlaku)." },
+      { id: 19, category: "Lembaga Sosial", stimulus: "", question: "Sebuah perusahaan e-commerce berfungsi menghimpun berbagai cara guna mencapai pemenuhan kebutuhan ekonomi. Berdasarkan fungsinya, ini termasuk lembaga...", options: [ { key: "A", text: "Operative Institutions" }, { key: "B", text: "Regulative Institutions" }, { key: "C", text: "Restricted Institutions" }, { key: "D", text: "Unsanctioned Institutions" }, { key: "E", text: "Basic Institutions" } ], correct: "A", explanation: "Operative institutions menghimpun berbagai cara mencapai tujuan (kebutuhan), contohnya lembaga ekonomi (e-commerce)." },
+      { id: 20, category: "Lembaga Sosial", stimulus: "", question: "Koperasi dan Perseroan Terbatas dibentuk secara sengaja untuk mencapai tujuan keuangan tertentu. Berdasarkan perkembangannya, lembaga ini disebut...", options: [ { key: "A", text: "Approved Institutions" }, { key: "B", text: "Crescive Institutions" }, { key: "C", text: "General Institutions" }, { key: "D", text: "Subsidiary Institutions" }, { key: "E", text: "Enacted Institutions" } ], correct: "E", explanation: "Enacted institutions sengaja dibentuk untuk tujuan tertentu, contohnya lembaga ekonomi seperti Koperasi atau PT." },
+      { id: 21, category: "Keteraturan Sosial", stimulus: "", question: "Menurut Emile Durkheim, keteraturan sosial di dalam masyarakat tercipta utamanya karena adanya...", options: [ { key: "A", text: "Persaingan status antarwarga" }, { key: "B", text: "Ikatan solidaritas yang kuat" }, { key: "C", text: "Hukum tertulis yang mengikat" }, { key: "D", text: "Kebingungan pada norma baru" }, { key: "E", text: "Pemenuhan ekonomi memadai" } ], correct: "B", explanation: "Emile Durkheim menyatakan keteraturan tercipta karena adanya ikatan solidaritas sosial yang kuat yang menciptakan kesalingtergantungan." },
+      { id: 22, category: "Keteraturan Sosial", stimulus: "", question: "Keteraturan sosial tidak dapat terwujud secara maksimal tanpa terpenuhinya syarat krusial berupa...", options: [ { key: "A", text: "Kesadaran warga yang tinggi" }, { key: "B", text: "Penghapusan sanksi berat" }, { key: "C", text: "Persaingan kelompok bebas" }, { key: "D", text: "Keseragaman budaya luar" }, { key: "E", text: "Penerimaan budaya asing" } ], correct: "A", explanation: "Syarat keteraturan sosial yang pertama adalah adanya kesadaran warga mengenai pentingnya keteraturan untuk hidup tenteram." },
+      { id: 23, category: "Keteraturan Sosial", stimulus: "", question: "Pelaksanaan upacara bendera setiap hari Senin rutin dilakukan tanpa paksaan karena diyakini kebenarannya oleh seluruh siswa. Tahapan ini dinamakan...", options: [ { key: "A", text: "Dinamika Sosial" }, { key: "B", text: "Tertib Sosial" }, { key: "C", text: "Keajegan" }, { key: "D", text: "Terpola" }, { key: "E", text: "Keteraturan" } ], correct: "C", explanation: "Keajegan adalah keteraturan yang bersifat tetap, rutin (ajeg), dan terus-menerus diyakini kebenarannya, seperti upacara tiap Senin." },
+      { id: 24, category: "Keteraturan Sosial", stimulus: "", question: "Saat guru memulai pelajaran di kelas, semua murid diam memperhatikan. Masyarakat mulai saling mengerti dan mematuhi aturan. Kondisi ini disebut tahap...", options: [ { key: "A", text: "Sinkronisasi" }, { key: "B", text: "Keajegan" }, { key: "C", text: "Terpola" }, { key: "D", text: "Tertib Sosial" }, { key: "E", text: "Dinamika Sosial" } ], correct: "D", explanation: "Tertib sosial adalah kondisi di mana norma dipatuhi dan masyarakat mulai saling mengerti (contoh: siswa diam saat guru menjelaskan)." },
+      { id: 25, category: "Keteraturan Sosial", stimulus: "", question: "Sistem jam kerja kantor dari pukul 07.00 hingga 15.00 telah diterima secara universal dan menjadi kebiasaan yang sangat mapan. Hal ini masuk pada tahap...", options: [ { key: "A", text: "Tertib Sosial" }, { key: "B", text: "Sosialisasi" }, { key: "C", text: "Keajegan" }, { key: "D", text: "Keteraturan" }, { key: "E", text: "Terpola" } ], correct: "E", explanation: "Terpola adalah keteraturan yang sudah teruji, diterima secara universal, dan menjadi pola perilaku yang sangat mapan (budaya mutlak jam kerja)." },
+      { id: 26, category: "Keteraturan Sosial", stimulus: "", question: "Suatu keadaan di mana hak dan kewajiban individu mulai dilaksanakan secara konsisten oleh seluruh anggota masyarakat disebut sebagai tahap...", options: [ { key: "A", text: "Tertib Sosial" }, { key: "B", text: "Terpola" }, { key: "C", text: "Keajegan" }, { key: "D", text: "Keteraturan" }, { key: "E", text: "Persuasif" } ], correct: "D", explanation: "Keteraturan adalah suatu keadaan di mana hak dan kewajiban mulai dilaksanakan secara konsisten." },
+      { id: 27, category: "Keteraturan Sosial", stimulus: "", question: "Pandangan yang menyebut keteraturan terjadi saat hubungan selaras menurut hukum sehingga setiap orang dapat memenuhi kebutuhannya tanpa merugikan pihak lain dikemukakan oleh...", options: [ { key: "A", text: "Roucek" }, { key: "B", text: "Budi Pramono" }, { key: "C", text: "Koentjaraningrat" }, { key: "D", text: "Durkheim" }, { key: "E", text: "W.G. Sumner" } ], correct: "B", explanation: "Budi Pramono mendefinisikan keteraturan dalam perspektif hukum, di mana hubungan sosial selaras sehingga orang bisa memenuhi kebutuhan tanpa merugikan pihak lain." },
+      { id: 28, category: "Keteraturan Sosial", stimulus: "", question: "Suatu desa rawan konflik karena petugas kepolisian tidak pernah berpatroli secara rutin. Hal ini menunjukkan hilangnya syarat keteraturan yaitu ketiadaan...", options: [ { key: "A", text: "Aparat penegak hukum tegas" }, { key: "B", text: "Kesadaran warga sekitar" }, { key: "C", text: "Norma sosial yang sesuai" }, { key: "D", text: "Subkebudayaan lokal" }, { key: "E", text: "Nilai tradisi masa lalu" } ], correct: "A", explanation: "Salah satu syarat keteraturan sosial adalah adanya aparat penegak hukum yang konsisten dan tegas menjalankan tugasnya." },
+      { id: 29, category: "Keteraturan Sosial", stimulus: "", question: "Keteraturan hidup di jalan raya bergantung pada rambu lalu lintas yang dipahami semua orang. Syarat yang terpenuhi dalam fenomena tersebut adalah...", options: [ { key: "A", text: "Adanya motif intrinsik individu" }, { key: "B", text: "Adanya rasa aman dalam warga" }, { key: "C", text: "Adanya norma sosial yang jelas" }, { key: "D", text: "Adanya penegakan hukum tegas" }, { key: "E", text: "Adanya kesadaran kelompok" } ], correct: "C", explanation: "Syarat keteraturan sosial meliputi adanya norma sosial yang jelas dan sesuai dengan peradaban." },
+      { id: 30, category: "Keteraturan Sosial", stimulus: "", question: "Jika solidaritas sosial semakin melemah, Emile Durkheim memprediksi masyarakat akan berisiko mengalami...", options: [ { key: "A", text: "Dinamika kelompok tertutup" }, { key: "B", text: "Munculnya pengendalian preventif" }, { key: "C", text: "Terciptanya sistem basic institution" }, { key: "D", text: "Ancaman konflik akibat kompetisi" }, { key: "E", text: "Peningkatan keteraturan terpola" } ], correct: "D", explanation: "Menurut Durkheim, keteraturan tercipta dari solidaritas yang menciptakan kesalingtergantungan, meskipun rawan terancam konflik akibat kompetisi jika melemah." },
+      { id: 31, category: "Penyimpangan Sosial", stimulus: "", question: "Seorang anak terjerumus dalam penyalahgunaan obat terlarang karena desakan ekonomi keluarga dan pergaulan bebas. Faktor penyebab dari luar ini disebut...", options: [ { key: "A", text: "Faktor Anomi" }, { key: "B", text: "Motif Intrinsik" }, { key: "C", text: "Teori Asosiasi" }, { key: "D", text: "Faktor Kultural" }, { key: "E", text: "Motif Ekstrinsik" } ], correct: "E", explanation: "Motif ekstrinsik adalah faktor penyebab dari luar lingkungan individu, seperti pengaruh pergaulan bebas atau kemiskinan." },
+      { id: 32, category: "Penyimpangan Sosial", stimulus: "", question: "Siswa yang hanya sekali melupakan jadwal piket kelas dan masih dimaklumi oleh teman-temannya sedang melakukan...", options: [ { key: "A", text: "Penyimpangan Primer" }, { key: "B", text: "Penyimpangan Kelompok" }, { key: "C", text: "Penyimpangan Represif" }, { key: "D", text: "Penyimpangan Sekunder" }, { key: "E", text: "Penyimpangan Kolektif" } ], correct: "A", explanation: "Penyimpangan primer bersifat insidental, tidak diulang, dan pelaku masih bisa ditoleransi oleh masyarakat secara sosial." },
+      { id: 33, category: "Penyimpangan Sosial", stimulus: "", question: "Pelaku kejahatan yang sering keluar masuk penjara karena mengulang tindakannya telah mendapat stigma permanen dari masyarakat. Perilaku ini disebut...", options: [ { key: "A", text: "Penyimpangan Primer" }, { key: "B", text: "Penyimpangan Sekunder" }, { key: "C", text: "Penyimpangan Kelompok" }, { key: "D", text: "Penyimpangan Positif" }, { key: "E", text: "Penyimpangan Ekstrinsik" } ], correct: "B", explanation: "Penyimpangan sekunder bersifat berulang-ulang, menjadi gaya hidup dominan, dan pelakunya mendapat stigma buruk dari masyarakat." },
+      { id: 34, category: "Penyimpangan Sosial", stimulus: "", question: "Perjuangan emansipasi perempuan yang mendobrak tradisi pingitan awalnya ditentang, namun akhirnya dianggap inovatif. Bentuk penyimpangan ini adalah...", options: [ { key: "A", text: "Penyimpangan Negatif" }, { key: "B", text: "Penyimpangan Primer" }, { key: "C", text: "Penyimpangan Positif" }, { key: "D", text: "Penyimpangan Individual" }, { key: "E", text: "Penyimpangan Kelompok" } ], correct: "C", explanation: "Penyimpangan positif menyimpang dari kebiasaan lama namun bertujuan baik, ideal, inovatif (misal: R.A. Kartini menentang pingitan)." },
+      { id: 35, category: "Penyimpangan Sosial", stimulus: "", question: "Jaringan sindikat pengedar narkoba internasional bertindak secara kolektif dan sangat terorganisir. Berdasarkan pelakunya, tindakan tersebut tergolong...", options: [ { key: "A", text: "Penyimpangan Kelompok" }, { key: "B", text: "Penyimpangan Sekunder" }, { key: "C", text: "Penyimpangan Positif" }, { key: "D", text: "Penyimpangan Individual" }, { key: "E", text: "Penyimpangan Primer" } ], correct: "A", explanation: "Penyimpangan kelompok dilakukan oleh sekelompok orang secara terorganisir dan beraksi kolektif, seperti sindikat pengedar narkoba." },
+      { id: 36, category: "Penyimpangan Sosial", stimulus: "", question: "Individu kebingungan karena masyarakat sedang berada dalam keadaan tanpa norma yang jelas. Konsep ini sesuai dengan penjelasan...", options: [ { key: "A", text: "Motif Intrinsik" }, { key: "B", text: "Sosialisasi Tidak Sempurna" }, { key: "C", text: "Subkebudayaan Menyimpang" }, { key: "D", text: "Pengendalian Represif" }, { key: "E", text: "Teori Anomi (Durkheim)" } ], correct: "E", explanation: "Teori Anomi (Durkheim) menjelaskan penyimpangan terjadi karena keadaan masyarakat sedang tanpa norma yang jelas (kebingungan aturan)." },
+      { id: 37, category: "Penyimpangan Sosial", stimulus: "", question: "Anak dari keluarga yang hancur (broken home) sering kali tidak menerima pembelajaran nilai yang utuh. Penyebab penyimpangannya disebut...", options: [ { key: "A", text: "Pengaruh Counter Culture" }, { key: "B", text: "Teori Asosiasi Diferensial" }, { key: "C", text: "Kondisi Anomi Masyarakat" }, { key: "D", text: "Sosialisasi Tidak Sempurna" }, { key: "E", text: "Penegakan Hukum Represif" } ], correct: "D", explanation: "Sosialisasi tidak sempurna terjadi ketika anak tidak menerima pembelajaran nilai/norma yang utuh akibat ketidakharmonisan keluarga (broken home)." },
+      { id: 38, category: "Penyimpangan Sosial", stimulus: "", question: "Gaya hidup sebagian pemuda yang sangat individualis menolak kebiasaan komunal masyarakat lokal. Hal ini berdampak melunturnya kearifan lokal. Fenomena ini disebut...", options: [ { key: "A", text: "Tindakan Kuratif" }, { key: "B", text: "Alkoholisme" }, { key: "C", text: "Counter Culture" }, { key: "D", text: "Sosialisasi Laten" }, { key: "E", text: "Kenakalan Remaja" } ], correct: "C", explanation: "Penyimpangan Budaya (Counter Culture) adalah ketidakmampuan menyerap budaya lokal atau sengaja melawan budaya, seperti gaya kebarat-baratan yang melunturkan kearifan lokal." },
+      { id: 39, category: "Penyimpangan Sosial", stimulus: "", question: "Untuk meminimalisir pelanggaran tata tertib, sekolah rutin memberikan edukasi dan nasihat jauh sebelum siswa melakukan kesalahan. Ini adalah bentuk pengendalian...", options: [ { key: "A", text: "Pengendalian Laten" }, { key: "B", text: "Pengendalian Represif" }, { key: "C", text: "Pengendalian Persuasif" }, { key: "D", text: "Pengendalian Preventif" }, { key: "E", text: "Pengendalian Kuratif" } ], correct: "D", explanation: "Tindakan preventif (pencegahan) dilakukan SEBELUM terjadinya penyimpangan untuk mencegah masyarakat melanggar norma, seperti nasihat dan edukasi." },
+      { id: 40, category: "Penyimpangan Sosial", stimulus: "", question: "Polisi langsung menangkap dan memenjarakan pelaku perampokan yang telah merugikan warga. Tindakan keras setelah kejahatan terjadi disebut pengendalian...", options: [ { key: "A", text: "Pengendalian Primer" }, { key: "B", text: "Pengendalian Preventif" }, { key: "C", text: "Pengendalian Ekstrinsik" }, { key: "D", text: "Pengendalian Manifes" }, { key: "E", text: "Pengendalian Represif" } ], correct: "E", explanation: "Tindakan represif (penindakan) dilakukan SETELAH penyimpangan terjadi dengan tujuan memulihkan situasi dan memberi efek jera lewat sanksi hukum." }
+    ];
+
+    // --- DATA SOAL URAIAN SOSIOLOGI (5 SOAL) ---
+    const essaysData = [
+      {
+        id: 1,
+        category: "Penelitian Sosial",
+        question: "Sebuah pemerintah provinsi meluncurkan program pemenuhan gizi siswa SMA. Setelah satu tahun berjalan, kepala daerah ingin mengetahui apakah program tersebut berhasil mencapai target yang ditetapkan. Berdasarkan metodenya, tentukan jenis penelitian yang paling tepat dan jelaskan alasannya!",
+        answerHTML: "<p>Jenis penelitian yang digunakan adalah <strong>Penelitian Evaluasi</strong>. Alasannya, penelitian evaluasi bertujuan untuk membandingkan suatu kegiatan dengan standar program yang telah ditetapkan, sehingga dapat menilai apakah program gizi tersebut sudah tepat sasaran atau berhasil.</p>"
+      },
+      {
+        id: 2,
+        category: "Lembaga Sosial",
+        question: "Lembaga pendidikan memiliki dua kategori fungsi, yakni manifes dan laten. Jelaskan perbedaan keduanya secara spesifik dan berikan satu contoh penerapannya di lingkungan sekolah menengah!",
+        answerHTML: "<p><strong>Fungsi Manifes</strong> adalah fungsi yang disadari dan diakui masyarakat, contohnya lembaga sekolah mendidik anak agar pintar dan mendapatkan ijazah. <br/><br/>Sementara <strong>Fungsi Laten</strong> adalah fungsi tersembunyi yang bukan tujuan utamanya, contohnya sekolah tanpa disadari memperpanjang masa remaja atau menunda pernikahan dini bagi siswanya.</p>"
+      },
+      {
+        id: 3,
+        category: "Keteraturan Sosial",
+        question: "Suatu wilayah awalnya sangat aman, namun kini dipenuhi pelanggaran hukum yang merugikan. Masyarakat menyalahkan ketiadaan polisi yang tidak pernah berjaga di sana. Berdasarkan teori, sebutkan tiga syarat utama agar keteraturan sosial dapat dipertahankan di wilayah tersebut!",
+        answerHTML: "<p>Keteraturan sosial membutuhkan 3 syarat mutlak:<br/>1. Adanya kesadaran warga mengenai pentingnya keteraturan untuk hidup tenteram.<br/>2. Adanya norma sosial yang jelas dan sesuai.<br/>3. Adanya aparat penegak hukum (lembaga hukum) yang konsisten dan tegas menjalankan tugasnya tanpa pandang bulu.</p>"
+      },
+      {
+        id: 4,
+        category: "Penyimpangan Sosial",
+        question: "Kasus kenakalan remaja seringkali disebabkan oleh lingkungan bermain yang buruk. Jika kamu adalah kepala sekolah, jelaskan satu rancangan tindakan preventif dan satu tindakan represif yang bisa kamu terapkan di sekolah untuk menangani masalah tersebut!",
+        answerHTML: "<p><strong>Tindakan Preventif:</strong> Dilakukan <em>sebelum</em> penyimpangan, contohnya mengadakan penyuluhan rutin tentang kenakalan remaja atau mengaktifkan kegiatan ekstrakurikuler (penyaluran hobi positif).<br/><br/><strong>Tindakan Represif:</strong> Dilakukan <em>setelah</em> penyimpangan, contohnya memberikan sanksi poin pelanggaran atau memanggil orang tua siswa yang tertangkap melakukan tawuran/vandalisme.</p>"
+      },
+      {
+        id: 5,
+        category: "Penyimpangan Sosial",
+        question: "Penggunaan Narkoba yang marak tidak hanya menghancurkan individu melainkan masyarakat luas. Uraikan dampak buruk penyimpangan sosial penyalahgunaan Narkoba, baik dari sisi pelakunya secara psikologis maupun dari sisi ketenteraman warga!",
+        answerHTML: "<p><strong>Bagi Pelaku (Psikologis):</strong> Mengalami rasa tertekan, bersalah, trauma, serta ancaman fisik berupa hilang produktivitas hingga kematian.<br/><br/><strong>Bagi Masyarakat:</strong> Menimbulkan keresahan dan ketakutan karena rasa aman hilang, menurunnya kepercayaan antarwarga, serta merusak tatanan keseimbangan sosial yang berlaku.</p>"
+      }
+    ];
+
+    // --- STATE VARIABLES ---
+    let currentQIndex = 0;
+    let score = 0;
+    let selectedAnswer = null;
+    let isAnswered = false;
+    let showEssayAnswer = false;
+
+    // --- DOM ELEMENTS ---
+    const screens = {
+      start: document.getElementById('screen-start'),
+      quiz: document.getElementById('screen-quiz'),
+      result: document.getElementById('screen-result'),
+      essay: document.getElementById('screen-essay')
+    };
+
+    // Quiz Elements
+    const elCategory = document.getElementById('quiz-category');
+    const elProgressText = document.getElementById('quiz-progress-text');
+    const elProgressBar = document.getElementById('quiz-progress-bar');
+    
+    const elStimulusContainer = document.getElementById('quiz-stimulus-container');
+    const elStimulus = document.getElementById('quiz-stimulus');
+    
+    const elQuestion = document.getElementById('quiz-question');
+    const elOptions = document.getElementById('quiz-options');
+    const elFeedbackContainer = document.getElementById('quiz-feedback-container');
+    const elFeedbackBox = document.getElementById('quiz-feedback-box');
+    const elFeedbackIcon = document.getElementById('quiz-feedback-icon');
+    const elFeedbackTitle = document.getElementById('quiz-feedback-title');
+    const elFeedbackText = document.getElementById('quiz-feedback-text');
+    const elNextBtn = document.getElementById('quiz-next-btn');
+
+    // Result Elements
+    const elResultScore = document.getElementById('result-score');
+    const elResultCorrect = document.getElementById('result-correct');
+    const elResultTotal = document.getElementById('result-total');
+    const elResultMessage = document.getElementById('result-message');
+    const elResultCircle = document.getElementById('result-circle');
+
+    // Essay Elements
+    const elEssayContainer = document.getElementById('essay-container');
+    const elEssayToggleBtn = document.getElementById('essay-toggle-btn');
+
+    // --- FUNCTIONS ---
+    function showScreen(screenName) {
+      Object.values(screens).forEach(s => s.classList.add('hidden'));
+      screens[screenName].classList.remove('hidden');
+      window.scrollTo(0, 0);
+    }
+
+    function startQuiz() {
+      currentQIndex = 0;
+      score = 0;
+      selectedAnswer = null;
+      isAnswered = false;
+      showScreen('quiz');
+      renderQuestion();
+    }
+
+    function renderQuestion() {
+      const q = questionsData[currentQIndex];
+      const progressPercent = ((currentQIndex + 1) / questionsData.length) * 100;
+
+      elCategory.textContent = q.category;
+      elProgressText.textContent = `Soal ${currentQIndex + 1} / ${questionsData.length}`;
+      elProgressBar.style.width = `${progressPercent}%`;
+      
+      // Hide stimulus box if not available
+      if (q.stimulus && q.stimulus.trim() !== '') {
+        elStimulusContainer.classList.remove('hidden');
+        elStimulus.textContent = q.stimulus;
+      } else {
+        elStimulusContainer.classList.add('hidden');
+      }
+      
+      elQuestion.textContent = q.question;
+      
+      elNextBtn.innerHTML = currentQIndex === questionsData.length - 1 
+        ? `Selesaikan Pilihan Ganda <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>`
+        : `Soal Berikutnya <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>`;
+
+      renderOptions();
+      elFeedbackContainer.classList.add('hidden');
+    }
+
+    function renderOptions() {
+      const q = questionsData[currentQIndex];
+      elOptions.innerHTML = '';
+
+      q.options.forEach(opt => {
+        const btn = document.createElement('button');
+        
+        let btnClass = "w-full text-left p-4 rounded-xl border border-slate-600 bg-slate-700/40 hover:bg-teal-600/20 transition duration-200 flex items-start gap-4";
+        let letterClass = "flex-shrink-0 w-8 h-8 rounded-full bg-slate-600 text-white flex items-center justify-center font-bold text-sm";
+        
+        if (!isAnswered) {
+          btn.style.cursor = "pointer";
+          btn.onclick = () => selectOption(opt.key);
+        } else {
+          btn.disabled = true;
+          btnClass = "w-full text-left p-4 rounded-xl border flex items-start gap-4 opacity-60";
+          
+          if (opt.key === q.correct) {
+            btnClass = "w-full text-left p-4 rounded-xl border border-emerald-500 bg-emerald-900/40 flex items-start gap-4";
+            letterClass = "flex-shrink-0 w-8 h-8 rounded-full bg-emerald-500 text-white flex items-center justify-center font-bold text-sm";
+          } else if (opt.key === selectedAnswer && selectedAnswer !== q.correct) {
+            btnClass = "w-full text-left p-4 rounded-xl border border-rose-500 bg-rose-900/40 flex items-start gap-4";
+            letterClass = "flex-shrink-0 w-8 h-8 rounded-full bg-rose-500 text-white flex items-center justify-center font-bold text-sm";
+          }
+        }
+
+        btn.className = btnClass;
+        btn.innerHTML = `
+          <span class="${letterClass}">${opt.key}</span>
+          <span class="pt-1 text-slate-200">${opt.text}</span>
+        `;
+        elOptions.appendChild(btn);
+      });
+    }
+
+    function selectOption(key) {
+      if (isAnswered) return;
+      isAnswered = true;
+      selectedAnswer = key;
+
+      const q = questionsData[currentQIndex];
+      const isCorrect = (key === q.correct);
+
+      if (isCorrect) score++;
+
+      renderOptions(); // Re-render to show colors
+      showFeedback(isCorrect, q.explanation);
+    }
+
+    function showFeedback(isCorrect, explanation) {
+      elFeedbackContainer.classList.remove('hidden');
+      
+      if (isCorrect) {
+        elFeedbackBox.className = "p-6 rounded-2xl border bg-emerald-900/30 border-emerald-500/50 text-emerald-100 mb-6";
+        elFeedbackIcon.innerHTML = `<svg class="w-7 h-7 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`;
+        elFeedbackTitle.textContent = "Jawaban Kamu Tepat!";
+      } else {
+        elFeedbackBox.className = "p-6 rounded-2xl border bg-rose-900/30 border-rose-500/50 text-rose-100 mb-6";
+        elFeedbackIcon.innerHTML = `<svg class="w-7 h-7 text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`;
+        elFeedbackTitle.textContent = "Jawaban Kamu Kurang Tepat";
+      }
+
+      elFeedbackText.innerHTML = `<strong class="font-semibold">Pembahasan:</strong> ${explanation}`;
+    }
+
+    function handleNextQuestion() {
+      if (currentQIndex < questionsData.length - 1) {
+        currentQIndex++;
+        selectedAnswer = null;
+        isAnswered = false;
+        renderQuestion();
+      } else {
+        showResultScreen();
+      }
+    }
+
+    function showResultScreen() {
+      const total = questionsData.length;
+      const finalScore = Math.round((score / total) * 100);
+      
+      elResultScore.textContent = finalScore;
+      elResultCorrect.textContent = score;
+      elResultTotal.textContent = total;
+      
+      elResultCircle.setAttribute('stroke-dasharray', `${finalScore}, 100`);
+
+      if (finalScore >= 80) {
+        elResultMessage.textContent = "Luar biasa! Pemahaman sosiologimu sangat mantap.";
+      } else if (finalScore >= 60) {
+        elResultMessage.textContent = "Kerja bagus! Sedikit lagi menguasai materi ini.";
+      } else {
+        elResultMessage.textContent = "Terus semangat belajar! Yuk pelajari lagi materi terkait.";
+      }
+
+      showScreen('result');
+    }
+
+    function goToEssay() {
+      showEssayAnswer = false;
+      renderEssays();
+      showScreen('essay');
+    }
+
+    function renderEssays() {
+      elEssayToggleBtn.textContent = showEssayAnswer ? 'Sembunyikan Kunci Jawaban' : 'Lihat Kunci Jawaban';
+      elEssayContainer.innerHTML = '';
+
+      essaysData.forEach((essay, index) => {
+        const div = document.createElement('div');
+        div.className = "bg-slate-800 border border-slate-700 rounded-xl p-6 md:p-8 shadow-md";
+        
+        let answerBlock = '';
+        if (showEssayAnswer) {
+          answerBlock = `
+            <div class="mt-6 p-5 bg-teal-900/20 border border-teal-500/30 rounded-lg animate-fade-in-up">
+              <h4 class="font-bold text-teal-300 mb-2 flex items-center gap-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                Referensi Jawaban:
+              </h4>
+              <div class="text-slate-300 text-sm md:text-base space-y-2">
+                ${essay.answerHTML}
+              </div>
+            </div>
+          `;
+        }
+
+        div.innerHTML = `
+          <div class="flex gap-4">
+            <div class="flex-shrink-0 w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center font-bold text-teal-300">
+              ${index + 1}
+            </div>
+            <div class="w-full">
+              <span class="text-xs font-semibold text-cyan-400 uppercase tracking-wider mb-2 block">${essay.category}</span>
+              <p class="text-lg leading-relaxed text-slate-100 whitespace-pre-wrap">${essay.question}</p>
+              
+              <div class="mt-4">
+                <textarea class="w-full bg-slate-900 border border-slate-600 rounded-lg p-4 text-slate-200 focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 placeholder-slate-500 min-h-[120px]" placeholder="Ketik jawaban kamu di sini untuk latihan mandiri..."></textarea>
+              </div>
+              
+              ${answerBlock}
+            </div>
+          </div>
+        `;
+        
+        elEssayContainer.appendChild(div);
+      });
+    }
+
+    function toggleEssayAnswers() {
+      showEssayAnswer = !showEssayAnswer;
+      renderEssays();
+    }
+
+    function goHome() {
+      showScreen('start');
+    }
+  </script>
+</body>
+</html>
